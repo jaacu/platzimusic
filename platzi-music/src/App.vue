@@ -1,19 +1,44 @@
 <template lang="pug">
   #app
-    p(v-if="value") {{ val }}
-    p(v-else-if="false") {{ 'algo mas' }}
-    p(v-else) {{ 'lo ultimo' }}
-
+    section.section
+      nav.nav.has-shadow
+        .container
+          input.input.is-large(type="text",
+          placeholder="Buscar canciones!",
+          v-model="searchQuery",
+          @keyup="search"
+          )
+          a.button.is-info.is-large(@click="search") Buscar
+          a.button.is-danger.is-large &times;
+      .container
+        .columns
+          .column {{ searchMessage }}
+          .column(v-for="track in tracks")
+            p {{track.name + track.artist}} 
 </template>
 
 <script>
+const tracks = [
+  {name: 'Muchacha', artist: 'Luis Alberto Spinetta'},
+  {name: 'Mamalo', artist: 'Mamador Experto'},
+  {name: 'Mamalo', artist: 'Mamador Novato'}
+]
 export default {
   name: 'app',
   data () {
     return {
-      msg: 'Hello World!',
-      value: false,
-      val: 'No se'
+      searchQuery: '',
+      tracks: []
+    }
+  },
+  computed: {
+    searchMessage () {
+      return `Encontrados: ${this.tracks.length}`
+    }
+  },
+  methods: {
+    search () {
+      this.tracks = tracks
     }
   }
 }
