@@ -30,12 +30,14 @@
     },
     computed: {
       time () {
-        return parseFloat((this.track.duration_ms / 1000) / 60).toFixed(2).toString().replace('.', ':')
+        // return parseFloat((this.track.duration_ms / 1000) / 60).toFixed(2).toString().replace('.', ':')
+        return this.$MsToMinute(this.track.duration_ms)
       }
     },
     methods: {
       selectTrack () {
         this.$emit('select', this.track.id)
+        this.$bus.$emit('set-track', this.track)
       }
     }
   }
