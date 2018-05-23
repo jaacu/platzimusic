@@ -1,6 +1,5 @@
 <template lang="pug">
-  #app
-    pm-header
+  main
     section.section
       nav.nav
         .container
@@ -24,13 +23,10 @@
             )
       .container(v-show="isLoading")
         pm-loader
-    pm-footer
 </template>
 
 <script>
 import trackService from '@/services/track'
-import PmFooter from '@/components/layout/footer.vue'
-import PmHeader from '@/components/layout/header.vue'
 
 import PmLoader from '@/components/shared/loader.vue'
 import PmNotification from '@/components/shared/notification.vue'
@@ -39,7 +35,7 @@ import PmTrack from '@/components/track.vue'
 //  pm de platzi music --- que es custom -- indentificar weas ----------- vue convierte las mayusculas juntas en minuscula con - y se puede usar de cualquiera
 export default {
   name: 'app',
-  components: { PmFooter, PmHeader, PmTrack, PmLoader, PmNotification },
+  components: { PmTrack, PmLoader, PmNotification },
   data () {
     return {
       searchQuery: '',
@@ -91,8 +87,6 @@ export default {
 </script>
 
 <style lang="scss">
-  @import './scss/main.scss';
-
   .results {
   margin-top: 50px
   }

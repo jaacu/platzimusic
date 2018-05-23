@@ -1,7 +1,7 @@
 <template lang="pug">
-	.content
+	.content(v-if="track && track.album")
 	  p
-	    img(:src="track.album.images[0].url")
+	    img( :src="track.album.images[0].url")
 	  p
 	    strong {{ track.name }} 
 	    small [ {{ time }} Min ]
@@ -30,7 +30,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   img {
   	width: 124px;
   	border-radius: 50%;

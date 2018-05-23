@@ -7,6 +7,8 @@
 	          .nav-item
 	            strong emoji radio platzi music
 	        .nav-right.nav-menu
+	          router-link.nav-item(:to="{ name: 'search' }") Buscar 
+	          router-link.nav-item(to="about") Nosotros
 
 	  .hero-body
 	    .container.has-text-centered
