@@ -3,8 +3,9 @@
     section.section
       nav.nav
         .container
-          pm-notification(v-show="showNotification", @clearNotification="showNotification = false", :color="notificationColor")
-            p.sub-title.is-centered(slot="body") {{ notificationMessage }}
+          transition(name="move")
+            pm-notification(v-show="showNotification", @clearNotification="showNotification = false", :color="notificationColor")
+              p.sub-title.is-centered(slot="body") {{ notificationMessage }}
           input.input.is-large(type="text",
           placeholder="Buscar canciones!",
           v-model="searchQuery",
@@ -15,14 +16,17 @@
 
       .container.results( v-show="!isLoading")
         .columns.is-multiline
-          .column.is-one-quarter(v-for="t in tracks")
+          .column.is-one-quarter(v-for="(t,k) in tracks" :key="k")
             pm-track(
-            :class="{ 'is-active': t.id === selectedTrack }",
-            :track="t",
-            @select="setSelectedTrack"
-            )
-      .container(v-show="isLoading")
-        pm-loader
+              v-blur="t.preview_url"
+              :class="{ 'is-active': t.id === selectedTrack }",
+              :track="t",
+              @select="setSelectedTrack"
+              :key="k"
+              )
+      transition(name="move")
+        .container(v-show="isLoading")
+          pm-loader
 </template>
 
 <script>
@@ -32,6 +36,8 @@ import PmLoader from '@/components/shared/loader.vue'
 import PmNotification from '@/components/shared/notification.vue'
 
 import PmTrack from '@/components/track.vue'
+
+import { mapState } from 'vuex'
 //  pm de platzi music --- que es custom -- indentificar weas ----------- vue convierte las mayusculas juntas en minuscula con - y se puede usar de cualquiera
 export default {
   name: 'app',
@@ -43,9 +49,12 @@ export default {
       isLoading: false,
       showNotification: false,
       notificationColor: '',
-      notificationMessage: '',
-      selectedTrack: ''
+      // selectedTrack: '',
+      notificationMessage: ''
     }
+  },
+  computed: {
+    ...mapState(['selectedTrack'])
   },
   watch: {
     showNotification () {
@@ -59,6 +68,7 @@ export default {
   methods: {
     search () {
       if (!this.searchQuery) { return }
+      this.tracks = []
       this.isLoading = true
       trackService.search(this.searchQuery)
         .then(res => {

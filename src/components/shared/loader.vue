@@ -2,10 +2,11 @@
   .container
     .loader Loading...
 </template>
-<style>
+<style scoped>
 	.loader {
-  color: #ffffff;
+  color: black;
   font-size: 90px;
+  /*z-index: 99999;*/
   text-indent: -9999em;
   overflow: hidden;
   width: 1em;
